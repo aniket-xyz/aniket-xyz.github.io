@@ -1,0 +1,23 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+---
+
+<BaseLayout title="Aniket XYZ" slug="home" isHome={true}>
+  <div class="mx-auto max-w-3xl px-6 md:px-8">
+    <section class="pt-24 md:pt-40 pb-20 md:pb-28 animate-fade-in">
+      <p class="eyebrow mb-8">aniket.xyz</p>
+      <h1 class="font-serif text-5xl sm:text-6xl md:text-7xl font-bold leading-[0.95] tracking-tight">
+        Aniket<span class="text-[var(--color-brand)]">.</span>
+      </h1>
+      <p class="mt-8 text-xl md:text-2xl text-[var(--fg-muted)] leading-relaxed max-w-2xl">
+        Software engineer. Interested in harness engineering.
+      </p>
+      <div class="mt-10 flex flex-wrap items-center gap-x-6 gap-y-3 text-sm font-medium">
+        <a href="https://www.twitter.com/noremap" class="text-[var(--color-brand)] hover:text-[var(--color-brand-hover)] transition-colors">@noremap</a>
+        <a href="mailto:hi@aniket.xyz" class="text-[var(--fg-muted)] hover:text-[var(--fg)] transition-colors">hi@aniket.xyz</a>
+        <a href="https://www.github.com/aniketpant" class="text-[var(--fg-muted)] hover:text-[var(--fg)] transition-colors">GitHub</a>
+        <a href="https://www.aniketpant.com" class="text-[var(--fg-muted)] hover:text-[var(--fg)] transition-colors">Blog</a>
+      </div>
+    </section>
+  </div>
+</BaseLayout>

@@ -1,4 +1,24 @@
-.sass-cache/
-_site/
-bower_components/
+# Build outputs and cache
+dist/
+.astro/
 node_modules/
+.cache/
+
+# Yarn / npm / environment
+.yarn/
+.yarnrc.yml
+.env
+.env.production
+
+# Editor & OS
+.DS_Store
+*.code-workspace
+.vscode/*
+!.vscode/extensions.json
+!.vscode/settings.json
+
+# Legacy Jekyll
+_site/
+.jekyll-cache/
+.jekyll-metadata
+.sass-cache/

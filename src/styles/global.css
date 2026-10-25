@@ -1,0 +1,686 @@
+@import "tailwindcss";
+@plugin "@tailwindcss/typography";
+
+@custom-variant dark (&:where([data-theme="dark"], [data-theme="dark"] *));
+
+@theme {
+  /* Light mode: warm reds & coral. `:root` below makes these theme-aware. */
+  --color-brand: #2563eb;
+  --color-brand-hover: #1d4ed8;
+  --color-brand-subtle: #eff6ff;
+
+  --color-secondary: #0891b2;
+  --color-secondary-hover: #0e7490;
+  --color-secondary-subtle: #ecfeff;
+
+  --color-tertiary: #7c3aed;
+  --color-tertiary-hover: #6d28d9;
+  --color-tertiary-subtle: #f5f3ff;
+
+  --font-sans: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  --font-serif: "Space Grotesk", "Inter", system-ui, sans-serif;
+  --font-mono: "JetBrains Mono", "Fira Code", ui-monospace, monospace;
+
+  /* Type scale (1.25) */
+  --text-xs: 0.8rem;
+  --text-sm: 0.875rem;
+  --text-base: 1rem;
+  --text-lg: 1.25rem;
+  --text-xl: 1.5625rem;
+  --text-2xl: 1.953125rem;
+  --text-3xl: 2.4414rem;
+
+  --animate-fade-in: fadeIn 0.6s ease-out both;
+  --animate-fade-in-up: fadeInUp 0.5s ease-out both;
+  --animate-fade-in-color: grayscaleToColor 500ms ease-in-out 1;
+
+  --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(24px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes grayscaleToColor {
+  0% { filter: grayscale(100%); }
+  100% { filter: grayscale(0%); }
+}
+
+/* Smooth scrolling */
+html {
+  scroll-behavior: smooth;
+}
+
+/* Respect reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+  ::view-transition-old(root),
+  ::view-transition-new(root) {
+    animation: none;
+  }
+}
+
+/* Theme tokens. Light values come first as a fallback for browsers without
+   `light-dark()`; the @supports block below makes them theme-aware. Colours
+   are tuned so body text and small metadata meet WCAG AA (4.5:1) on their
+   own background. */
+:root {
+  /* Native UI (scrollbars, form controls, canvas) follows the theme. */
+  color-scheme: light dark;
+
+  --bg: #faf8f5;
+  --bg-secondary: #f5f0eb;
+  --surface: #ffffff;
+  --fg: #1c1917;
+  --fg-muted: #57534e;
+  --fg-subtle: #75706a;
+  --border: #e7e5e4;
+  --border-subtle: #f5f5f4;
+  --ring: #dc2626;
+
+  /* Brand palette — warm reds & coral. */
+  --color-brand: #2563eb;
+  --color-brand-hover: #1d4ed8;
+  --color-brand-subtle: #eff6ff;
+
+  --color-secondary: #0891b2;
+  --color-secondary-hover: #0e7490;
+  --color-secondary-subtle: #ecfeff;
+
+  --color-tertiary: #7c3aed;
+  --color-tertiary-hover: #6d28d9;
+  --color-tertiary-subtle: #f5f3ff;
+
+  /* Code syntax colors (Shiki css-variables theme). Astro emits these as
+     --astro-code-* references in <pre>/<span> styles. */
+  --astro-code-foreground: #1c1917;
+  --astro-code-background: var(--bg-secondary);
+  --astro-code-token-comment: #75706a;
+  --astro-code-token-keyword: #7c3aed;
+  --astro-code-token-constant: #be123c;
+  --astro-code-token-function: #0f766e;
+  --astro-code-token-string: #047857;
+  --astro-code-token-string-expression: #047857;
+  --astro-code-token-number: #b45309;
+  --astro-code-token-parameter: #1c1917;
+  --astro-code-token-punctuation: #57534e;
+  --astro-code-token-link: #be123c;
+  --astro-code-token-type: #b45309;
+}
+
+/* `light-dark()` resolves against the computed `color-scheme`: the site
+   follows the OS by default and an explicit choice pins a scheme. One
+   declaration per token, with synthwave neon as the dark half. */
+@supports (color: light-dark(#fff, #000)) {
+  :root {
+    --bg: light-dark(#faf8f5, #070514);
+    --bg-secondary: light-dark(#f5f0eb, #0f0a24);
+    --surface: light-dark(#ffffff, #1a1040);
+    --fg: light-dark(#1c1917, #f5eeff);
+    --fg-muted: light-dark(#57534e, #a090cc);
+    --fg-subtle: light-dark(#75706a, #8574b8);
+    --border: light-dark(#e7e5e4, #2a1a5a);
+    --border-subtle: light-dark(#f5f5f4, #140c30);
+    --ring: light-dark(#dc2626, #ff00a0);
+
+    --color-brand: light-dark(#de1b46, #ff00a0);
+    --color-brand-hover: light-dark(#be123c, #ff33bb);
+    --color-brand-subtle: light-dark(#fff1f2, #2a0020);
+
+    --color-secondary: light-dark(#bd24cf, #bd2fe4);
+    --color-secondary-hover: light-dark(#a21caf, #d050ff);
+    --color-secondary-subtle: light-dark(#faf5ff, #1e0a30);
+
+    --color-tertiary: light-dark(#04805f, #00ff9f);
+    --color-tertiary-hover: light-dark(#047857, #4dffb8);
+    --color-tertiary-subtle: light-dark(#ecfdf5, #002a1a);
+
+    --astro-code-foreground: light-dark(#1c1917, #f5eeff);
+    --astro-code-token-comment: light-dark(#75706a, #8574b8);
+    --astro-code-token-keyword: light-dark(#7c3aed, #d050ff);
+    --astro-code-token-constant: light-dark(#be123c, #ff00a0);
+    --astro-code-token-function: light-dark(#0f766e, #4dd0e1);
+    --astro-code-token-string: light-dark(#047857, #00ff9f);
+    --astro-code-token-string-expression: light-dark(#047857, #00ff9f);
+    --astro-code-token-number: light-dark(#b45309, #ffb44d);
+    --astro-code-token-parameter: light-dark(#1c1917, #f5eeff);
+    --astro-code-token-punctuation: light-dark(#57534e, #a090cc);
+    --astro-code-token-link: light-dark(#be123c, #ff00a0);
+    --astro-code-token-type: light-dark(#b45309, #ffb44d);
+  }
+}
+
+/* An explicit choice from the theme toggle pins `color-scheme`, which in turn
+   pins every `light-dark()` token above. */
+:root[data-theme="light"] {
+  color-scheme: light;
+}
+
+:root[data-theme="dark"] {
+  color-scheme: dark;
+}
+
+body {
+  background-color: var(--bg);
+  color: var(--fg);
+  transition: background-color 0.3s ease, color 0.3s ease;
+  /* Normalise the fallback font's x-height to the web font so the swap does
+     not shift layout or change apparent text size. */
+  font-size-adjust: from-font;
+}
+
+/* Balanced headings, prettier body wrapping (progressive enhancement). */
+h1,
+h2,
+h3 {
+  text-wrap: balance;
+}
+
+.prose p,
+.prose li,
+.prose blockquote,
+.prose figcaption,
+.lead {
+  text-wrap: pretty;
+}
+
+/* Keep in-page anchors clear of the sticky header. */
+h1[id],
+h2[id],
+h3[id],
+h4[id],
+h5[id],
+h6[id] {
+  scroll-margin-top: 5rem;
+}
+
+/* Skip link — hidden until it receives focus. */
+.skip-link {
+  position: fixed;
+  top: 0.75rem;
+  left: 0.75rem;
+  z-index: 100;
+  padding: 0.625rem 1rem;
+  border: 1px solid var(--border);
+  border-radius: 0.5rem;
+  background: var(--surface);
+  color: var(--fg);
+  font-size: 0.875rem;
+  font-weight: 600;
+  text-decoration: none;
+  box-shadow: 0 8px 24px rgb(0 0 0 / 0.12);
+  transform: translateY(-200%);
+  transition: transform 150ms ease;
+}
+
+.skip-link:focus-visible {
+  transform: translateY(0);
+  outline: 2px solid var(--ring);
+  outline-offset: 2px;
+}
+
+/* The skip link moves focus here; do not draw a ring around the whole page. */
+main:focus {
+  outline: none;
+}
+
+/* Theme toggle icons follow the resolved theme in CSS, not JavaScript.
+   The header renders one toggle per breakpoint, so these are classes, not ids. */
+.theme-icon {
+  display: none;
+}
+
+:root[data-theme="dark"] .theme-sun {
+  display: block;
+}
+
+:root:not([data-theme="dark"]) .theme-moon {
+  display: block;
+}
+
+/* Display type: improved kerning, ligatures & optical sizing */
+.font-serif,
+.font-sans {
+  font-optical-sizing: auto;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.font-serif {
+  font-kerning: normal;
+  font-feature-settings: "kern" 1, "liga" 1, "calt" 1;
+  text-rendering: optimizeLegibility;
+}
+
+/* Fine-tune tracking for large display serif at each breakpoint */
+@media (min-width: 768px) {
+  .text-6xl.font-serif,
+  .text-7xl.font-serif,
+  .text-8xl.font-serif {
+    letter-spacing: -0.03em;
+  }
+
+  .text-4xl.font-serif,
+  .text-5xl.font-serif {
+    letter-spacing: -0.02em;
+  }
+}
+
+/* Dramatic typography */
+.prose h1 {
+  font-family: var(--font-serif);
+  font-weight: 700;
+  font-size: 2.5rem;
+  line-height: 1.1;
+  letter-spacing: -0.02em;
+  color: var(--fg);
+}
+
+.prose h2 {
+  font-family: var(--font-serif);
+  font-weight: 600;
+  font-size: 1.75rem;
+  line-height: 1.2;
+  letter-spacing: -0.012em;
+  color: var(--fg);
+  margin-top: 2.75rem;
+  margin-bottom: 0.7em;
+}
+
+.prose h3 {
+  font-family: var(--font-serif);
+  font-weight: 600;
+  font-size: 1.35rem;
+  line-height: 1.3;
+  letter-spacing: -0.005em;
+  color: var(--fg);
+  margin-top: 2.25rem;
+  margin-bottom: 0.6em;
+}
+
+.prose h4 {
+  font-family: var(--font-serif);
+  font-weight: 600;
+  color: var(--fg);
+}
+
+/* Reading text: 17px with a looser leading and a little air after each
+   paragraph. The measure is capped on the article column (see ArticleShell),
+   so lines stay around 65-70 characters instead of running the full grid. */
+.prose {
+  font-size: 1.0625rem;
+  line-height: 1.7;
+  color: var(--fg-muted);
+}
+
+.prose p,
+.prose li,
+.prose td,
+.prose th {
+  color: var(--fg-muted);
+  line-height: 1.7;
+}
+
+.prose p {
+  margin-top: 0;
+  margin-bottom: 1.35em;
+}
+
+.prose > :first-child {
+  margin-top: 0;
+}
+
+.prose li {
+  margin-bottom: 0.35em;
+}
+
+.prose ul,
+.prose ol {
+  padding-left: 1.3em;
+}
+
+.prose li::marker {
+  color: var(--fg-subtle);
+}
+
+/* Labels: one small mono voice for every section marker on the site. */
+.eyebrow {
+  font-family: var(--font-mono);
+  font-size: 0.6875rem;
+  font-weight: 500;
+  letter-spacing: 0.14em;
+  line-height: 1.2;
+  text-transform: uppercase;
+  color: var(--fg-subtle);
+}
+
+/* Meta rows (dates, reading time, tags) keep their columns aligned. */
+.meta {
+  font-size: 0.875rem;
+  line-height: 1.5;
+  color: var(--fg-subtle);
+  font-variant-numeric: tabular-nums;
+  letter-spacing: 0.01em;
+}
+
+.prose strong {
+  color: var(--fg);
+  font-weight: 600;
+}
+
+/* Always underlined, so a link is visible without hover; the underline sits
+   low enough not to cut the descenders. */
+.prose a {
+  color: var(--color-brand);
+  text-decoration: underline;
+  text-decoration-thickness: 0.06em;
+  text-underline-offset: 0.18em;
+  text-decoration-color: color-mix(in srgb, var(--color-brand) 45%, transparent);
+  transition: color 0.2s ease, text-decoration-color 0.2s ease;
+}
+
+.prose a:hover {
+  color: var(--color-brand-hover);
+  text-decoration-color: currentColor;
+}
+
+.prose blockquote {
+  border-left: 2px solid var(--color-brand);
+  padding-left: 1.25rem;
+  margin: 2rem 0;
+  font-style: italic;
+  color: var(--fg-muted);
+}
+
+.prose blockquote p {
+  font-family: var(--font-serif);
+  font-size: 1.1875rem;
+  line-height: 1.6;
+  letter-spacing: -0.005em;
+  margin-bottom: 0.6em;
+}
+
+.prose blockquote p:last-child {
+  margin-bottom: 0;
+}
+
+.prose figcaption {
+  font-size: 0.8125rem;
+  line-height: 1.5;
+  color: var(--fg-subtle);
+  margin-top: 0.75em;
+}
+
+.prose code {
+  background-color: var(--bg-secondary);
+  color: var(--fg);
+  padding: 0.12em 0.36em;
+  border-radius: 5px;
+  font-size: 0.88em;
+  font-family: var(--font-mono);
+  font-feature-settings: "liga" 0;
+}
+
+.prose pre {
+  background-color: var(--bg-secondary);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 1.15rem 1.25rem;
+  font-size: 0.875rem;
+  line-height: 1.65;
+  tab-size: 2;
+}
+
+.prose pre code {
+  background-color: transparent;
+  padding: 0;
+}
+
+.prose hr {
+  border-color: var(--border);
+  margin: 3rem 0;
+}
+
+.prose thead {
+  border-bottom-color: var(--border);
+}
+
+.prose tbody tr {
+  border-bottom-color: var(--border-subtle);
+}
+
+/* Focus rings */
+a:focus-visible,
+button:focus-visible {
+  outline: 2px solid var(--ring);
+  outline-offset: 2px;
+}
+
+/* Selection color */
+::selection {
+  background-color: var(--color-brand-subtle);
+  color: light-dark(var(--color-brand), #ff66cc);
+}
+
+/* Lead paragraph */
+.lead {
+  font-size: 1.35rem;
+  line-height: 1.7;
+  color: var(--fg-muted);
+  font-weight: 300;
+}
+
+/* Image utilities */
+.img--center {
+  margin-left: auto;
+  margin-right: auto;
+  display: block;
+}
+
+.img--medium {
+  max-width: 450px;
+  width: 100%;
+  height: auto;
+}
+
+/* Animate fadeInColor */
+.animate-fadeInColor {
+  animation: grayscaleToColor 500ms ease-in-out 1;
+}
+
+/* Stagger animation delays */
+.stagger-children > *:nth-child(1) { animation-delay: 0ms; }
+.stagger-children > *:nth-child(2) { animation-delay: 60ms; }
+.stagger-children > *:nth-child(3) { animation-delay: 120ms; }
+.stagger-children > *:nth-child(4) { animation-delay: 180ms; }
+.stagger-children > *:nth-child(5) { animation-delay: 240ms; }
+.stagger-children > *:nth-child(6) { animation-delay: 300ms; }
+.stagger-children > *:nth-child(7) { animation-delay: 360ms; }
+.stagger-children > *:nth-child(8) { animation-delay: 420ms; }
+.stagger-children > *:nth-child(9) { animation-delay: 480ms; }
+.stagger-children > *:nth-child(10) { animation-delay: 540ms; }
+
+/* Gradient utilities */
+/* Headings carry one solid ink colour. The accent colours stay in the rules,
+   the dithered artwork and the links, where they read as punctuation rather
+   than a rainbow running through the type. */
+.gradient-text {
+  color: var(--fg);
+}
+
+.gradient-text-subtle {
+  color: var(--color-brand);
+}
+
+.gradient-text-secondary {
+  color: var(--fg-muted);
+}
+
+.gradient-text-tertiary {
+  color: var(--color-tertiary);
+}
+
+.gradient-border {
+  position: relative;
+}
+
+.gradient-border::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  padding: 2px;
+  background: linear-gradient(135deg, var(--color-brand), var(--color-secondary), var(--color-tertiary));
+  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  pointer-events: none;
+}
+
+.gradient-bg-subtle {
+  background: linear-gradient(135deg, var(--color-brand-subtle) 0%, var(--color-secondary-subtle) 50%, var(--color-tertiary-subtle) 100%);
+}
+
+.gradient-line {
+  height: 2px;
+  background: linear-gradient(90deg, var(--color-brand) 0%, var(--color-secondary) 50%, var(--color-tertiary) 100%);
+  border-radius: 1px;
+}
+
+.gradient-line-vertical {
+  width: 3px;
+  background: linear-gradient(180deg, var(--color-brand) 0%, var(--color-secondary) 50%, var(--color-tertiary) 100%);
+  border-radius: 1px;
+}
+
+/* Decorative elements */
+.deco-blob {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(80px);
+  opacity: 0.12;
+  pointer-events: none;
+}
+
+/* Full-viewport colour wash behind an article. Fixed so the tint stays put
+   while the page scrolls, and masked away before the footer. Sits at a
+   negative z-index so the page background and the text both stay on top. */
+.deco-wash {
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  background:
+    radial-gradient(
+      72% 58% at 92% -6%,
+      color-mix(in srgb, var(--deco, var(--color-brand)) 20%, transparent) 0%,
+      transparent 66%
+    ),
+    radial-gradient(
+      60% 48% at 2% 58%,
+      color-mix(in srgb, var(--deco, var(--color-brand)) 9%, transparent) 0%,
+      transparent 72%
+    );
+  -webkit-mask-image: linear-gradient(180deg, #000 0%, #000 58%, transparent 96%);
+  mask-image: linear-gradient(180deg, #000 0%, #000 58%, transparent 96%);
+}
+
+[data-theme="dark"] .deco-wash {
+  opacity: 0.9;
+}
+
+/* Dithered hero backdrop — fine speckled wash, faded toward the content */
+.deco-dither {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0.85;
+  pointer-events: none;
+  -webkit-mask-image: linear-gradient(180deg, black 0%, black 28%, rgba(0, 0, 0, 0.55) 52%, transparent 78%);
+  mask-image: linear-gradient(180deg, black 0%, black 28%, rgba(0, 0, 0, 0.55) 52%, transparent 78%);
+}
+
+[data-theme="dark"] .deco-dither {
+  opacity: 0.8;
+}
+
+/* Post fingerprints — one quantization per theme, revealed by CSS */
+.fingerprint-dither-dark {
+  display: none;
+}
+
+[data-theme="dark"] .fingerprint-dither {
+  display: none;
+}
+
+[data-theme="dark"] .fingerprint-dither-dark {
+  display: block;
+}
+
+/* With JavaScript disabled there is no data-theme; follow the OS. */
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme]) .fingerprint-dither {
+    display: none;
+  }
+
+  :root:not([data-theme]) .fingerprint-dither-dark {
+    display: block;
+  }
+}
+
+/* Fingerprint palette classes (fills follow the active theme) */
+.d-bg { fill: var(--bg); }
+.d-fg { fill: var(--fg); }
+.d-muted { fill: var(--fg-muted); }
+.d-brand { fill: var(--color-brand); }
+.d-secondary { fill: var(--color-secondary); }
+.d-tertiary { fill: var(--color-tertiary); }
+
+/* Long archive indexes: skip layout and paint for year blocks that start
+   below the fold. `contain-intrinsic-size` reserves space until the browser
+   renders (and then remembers) the real height, so the scrollbar stays put. */
+.archive-year:not(:first-child) {
+  content-visibility: auto;
+  contain-intrinsic-size: auto none auto 40rem;
+}
+
+/* View Transitions */
+::view-transition-old(root) {
+  animation: fadeOut 0.2s ease-out both;
+}
+
+::view-transition-new(root) {
+  animation: fadeIn 0.3s ease-out both;
+}
+
+@keyframes fadeOut {
+  from { opacity: 1; }
+  to { opacity: 0; }
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+:focus-visible {
+  outline: 2px solid var(--ring);
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+
+:root[data-theme="dark"] {
+  --astro-code-background: #140c30;
+}

@@ -1,24 +1,36 @@
 {
-  "name": "zeamus",
-  "version": "0.1.0",
-  "homepage": "https://github.com/aniketpant/aniketpant.com",
+  "name": "aniket-xyz",
+  "version": "1.0.0",
+  "type": "module",
+  "homepage": "https://www.aniket.xyz",
   "author": {
     "name": "Aniket Pant",
-    "url": "http://www.aniketpant.com"
+    "url": "https://www.aniket.xyz"
   },
-  "licenses": [
-    {
-      "type": "MIT",
-      "url": "https://github.com/aniketpant/aniketpant.com/blob/master/LICENSE"
-    }
-  ],
+  "license": "MIT",
   "engines": {
-    "node": ">= 0.10.0"
+    "node": ">=20.0.0"
+  },
+  "scripts": {
+    "dev": "astro dev",
+    "build": "astro build",
+    "preview": "astro preview",
+    "astro": "astro",
+    "check": "node scripts/check-astro.mjs",
+    "format": "prettier --write ."
+  },
+  "packageManager": "bun@1.4.2",
+  "dependencies": {
+    "@astrojs/sitemap": "^3.7.4",
+    "@tailwindcss/typography": "^0.5.20",
+    "@tailwindcss/vite": "^4.3.3",
+    "astro": "^7.3.3",
+    "tailwindcss": "^4.3.3"
   },
   "devDependencies": {
-    "gulp": "^3.8.11",
-    "gulp-sass": "*",
-    "gulp-concat": "*",
-    "gulp-uglify": "*"
+    "@types/node": "^22.13.10",
+    "prettier": "^3.5.3",
+    "prettier-plugin-astro": "^0.14.1",
+    "typescript": "^5.8.2"
   }
 }
