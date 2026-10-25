@@ -1,6 +1,5 @@
 ---
 import { ClientRouter } from 'astro:transitions';
-import Header from '../components/Header.astro';
 import '../styles/global.css';
 
 interface Props {
@@ -224,8 +223,6 @@ const ogType = publishedTime ? 'article' : 'website';
   <body class="font-sans antialiased min-h-dvh flex flex-col">
     <a href="#main" class="skip-link">Skip to main content</a>
 
-    <Header isHome={isHome} />
-
     <main id="main" tabindex="-1" class="flex-1 w-full overflow-x-hidden">
       <slot />
     </main>
@@ -239,9 +236,7 @@ const ogType = publishedTime ? 'article' : 'website';
             &{' '}
             <a href="https://tailwindcss.com" target="_blank" rel="noopener noreferrer" class="text-[var(--color-secondary)] hover:text-[var(--color-secondary-hover)] hover:underline transition-colors">Tailwind</a>.
           </p>
-          <p class="mt-2">
-            <a href="https://x.com/noremap" target="_blank" rel="noopener noreferrer" class="hover:text-[var(--fg-muted)] transition-colors">@noremap</a>
-          </p>
+
         </div>
       </div>
     </footer>
